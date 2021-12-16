@@ -1,18 +1,12 @@
 package octopus.server.importer.csv;
 
 import java.io.IOException;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import octopus.api.database.Database;
 import octopus.api.projects.OctopusProject;
 import octopus.api.projects.ProjectManager;
 import octopus.server.importer.csv.titan.CSVImporter;
 
 public class ImportCSVRunnable implements Runnable {
-
-	private static final Logger logger = LoggerFactory.getLogger(ImportCSVRunnable.class);
 
 	private final ImportJob importJob;
 
@@ -22,7 +16,7 @@ public class ImportCSVRunnable implements Runnable {
 
 	@Override
 	public void run() {
-		logger.warn("Starting import");
+		System.out.println("Starting CSV import");
 		
 		
 		CSVImporter csvBatchImporter = new CSVImporter();
@@ -49,7 +43,7 @@ public class ImportCSVRunnable implements Runnable {
 			e.printStackTrace();
 		}
 
-		logger.warn("Import finished");
+		System.out.println("CSV import finished");
 	}
 
 }

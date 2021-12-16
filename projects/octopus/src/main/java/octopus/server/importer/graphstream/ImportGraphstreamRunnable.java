@@ -1,18 +1,12 @@
 package octopus.server.importer.graphstream;
 
 import java.io.IOException;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import octopus.api.database.Database;
 import octopus.api.projects.OctopusProject;
 import octopus.api.projects.ProjectManager;
 import octopus.server.importer.graphstream.titan.GraphstreamImporter;
 
 public class ImportGraphstreamRunnable implements Runnable {
-
-	private static final Logger logger = LoggerFactory.getLogger(ImportGraphstreamRunnable.class);
 
 	private final ImportJob importJob;
 
@@ -22,7 +16,7 @@ public class ImportGraphstreamRunnable implements Runnable {
 
 	@Override
 	public void run() {
-		logger.warn("Starting import");
+		System.out.println("Starting graph stream import");
 
 		GraphstreamImporter gdsBatchImporter = new GraphstreamImporter();
 
@@ -43,7 +37,7 @@ public class ImportGraphstreamRunnable implements Runnable {
 			e.printStackTrace();
 		}
 
-		logger.warn("Import finished");
+		System.out.println("Graph stream import finished");
 	}
 
 }

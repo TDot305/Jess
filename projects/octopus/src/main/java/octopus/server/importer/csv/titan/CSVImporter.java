@@ -5,13 +5,9 @@ import java.io.IOException;
 import org.apache.tinkerpop.gremlin.structure.Edge;
 import org.apache.tinkerpop.gremlin.structure.Graph;
 import org.apache.tinkerpop.gremlin.structure.Vertex;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.thinkaurelius.titan.core.SchemaViolationException;
 
 public class CSVImporter {
-	private static final Logger logger = LoggerFactory.getLogger(CSVImporter.class);
 
 	static final int NELEMS_PER_TRANSACTION = 100000;
 	static final String KEY = "_key";
@@ -111,7 +107,7 @@ public class CSVImporter {
 		try {
 			doAddNodeToGraph(id, row, keys, 0);
 		} catch (RuntimeException e) {
-			logger.error(e.getMessage());
+			System.out.println("Error during addNodeToGraph: \n"+e.getMessage());
 		}
 	}
 

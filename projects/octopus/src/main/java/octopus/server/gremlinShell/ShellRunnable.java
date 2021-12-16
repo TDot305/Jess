@@ -8,16 +8,11 @@ import java.io.OutputStreamWriter;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import octopus.server.gremlinShell.io.OctopusClientReader;
 import octopus.server.gremlinShell.io.OctopusClientWriter;
 import octopus.server.shellmanager.OctopusShellManager;
 
 public class ShellRunnable implements Runnable {
-	private static final Logger logger = LoggerFactory.getLogger(ShellRunnable.class);
 
 	private ServerSocket serverSocket;
 	private OctopusGremlinShell shell;
@@ -61,7 +56,7 @@ public class ShellRunnable implements Runnable {
 
 				createLocalListeningSocket();
 			} catch (IOException e) {
-				logger.warn("IOException when handling client: {}", e.getMessage());
+				System.out.println("IOException when handling client: "+ e.getMessage());
 			}
 
 		}

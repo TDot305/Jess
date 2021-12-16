@@ -10,10 +10,6 @@ import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.HashMap;
 import java.util.Map;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import octopus.OctopusEnvironment;
 import octopus.api.projects.OctopusProject;
 import octopus.api.projects.ProjectManager;
@@ -23,9 +19,6 @@ public class OctopusProjectManager {
 
 	private static Path projectsDir;
 	private static Map<String, OctopusProject> nameToProject = new HashMap<String, OctopusProject>();
-
-	private static final Logger logger = LoggerFactory.getLogger(OctopusProjectManager.class);
-
 	private static boolean initialized = false;
 
 	static {
@@ -72,7 +65,7 @@ public class OctopusProjectManager {
 	private static void loadProject(Path projectDir) throws IOException {
 		String projectName = projectDir.getFileName().toString();
 		OctopusProject newProject = createOctopusProjectForName(projectName);
-		logger.debug("Adding project to map: " + projectName);
+		//System.out.println("Adding project to map: " + projectName);
 		nameToProject.put(projectName, newProject);
 	}
 
@@ -81,7 +74,7 @@ public class OctopusProjectManager {
 	}
 
 	public static OctopusProject getProjectByName(String name) {
-		logger.debug("requesting project: " + name);
+		//System.out.println("requesting project: " + name);
 		return nameToProject.get(name);
 	}
 
@@ -106,7 +99,7 @@ public class OctopusProjectManager {
 		TitanLocalDatabaseManager databaseManager = new TitanLocalDatabaseManager();
 		databaseManager.initializeDatabaseForProject(project);
 
-		logger.debug("Adding project to map: " + name);		
+		//System.out.println("Adding project to map: " + name);		
 		nameToProject.put(name, project);
 		
 	}

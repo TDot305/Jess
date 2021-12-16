@@ -5,11 +5,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Stack;
-
 import org.antlr.v4.runtime.ParserRuleContext;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import antlr.FunctionParser.Additive_expressionContext;
 import antlr.FunctionParser.Address_of_expressionContext;
 import antlr.FunctionParser.And_expressionContext;
@@ -202,7 +198,6 @@ public class FunctionContentBuilder extends ASTNodeBuilder {
 	ContentBuilderStack stack = new ContentBuilderStack();
 	NestingReconstructor nesting = new NestingReconstructor(stack);
 	HashMap<ASTNode, ParserRuleContext> nodeToRuleContext = new HashMap<ASTNode, ParserRuleContext>();
-	private static final Logger logger = LoggerFactory.getLogger(CModuleParserTreeListener.class);
 	/**
 	 * This stack contains PreBlockstarters that can implement variability
 	 */
@@ -636,7 +631,7 @@ public class FunctionContentBuilder extends ASTNodeBuilder {
 			// Remove items from stack until the next #if/#ifdef
 			closeASTBlock();
 			closeVariabilityBlock();
-			logger.debug("AST and variability block closed!");
+			//System.out.println("AST and variability block closed!");
 			// Remove item from the stack
 			stack.pop();
 			return false;
@@ -644,12 +639,12 @@ public class FunctionContentBuilder extends ASTNodeBuilder {
 			// Collect all Pre Blockstarters on the Stack
 			variabilityItemStack.push(itemToRemove);
 			preASTItemStack.push(itemToRemove);
-			logger.debug(itemToRemove.getEscapedCodeStr()+" collected on AST and variability stack");
+			//System.out.println(itemToRemove.getEscapedCodeStr()+" collected on AST and variability stack");
 			// Connect only the #if with the function content compound statement
 			if (itemToRemove instanceof PreIfStatement) {
 				stack.pop();
 				rootCompound.addChild(itemToRemove);
-				logger.debug("Connected "+itemToRemove.getEscapedCodeStr()+" with root compound statement");
+				//System.out.println("Connected "+itemToRemove.getEscapedCodeStr()+" with root compound statement");
 			} else {
 				// Remove item from the stack. The nesting will be resolved in the closeASTBlock function
 				stack.pop();
@@ -676,9 +671,9 @@ public class FunctionContentBuilder extends ASTNodeBuilder {
 			PreBlockstarter parent = (PreBlockstarter) variabilityItemStack.peek();
 			parent.addVariableStatement(currentNode);
 
-			logger.debug("Connected variability child of type: "+currentNode.getTypeAsString()+" with code: "+currentNode.getEscapedCodeStr()+" with parent: "+parent.getEscapedCodeStr());
+			//System.out.println("Connected variability child of type: "+currentNode.getTypeAsString()+" with code: "+currentNode.getEscapedCodeStr()+" with parent: "+parent.getEscapedCodeStr());
 		} else {
-			logger.debug("Current node of type "+currentNode.getTypeAsString()+" with code "+currentNode.getEscapedCodeStr()+" is not variable!");
+			//System.out.println("Current node of type "+currentNode.getTypeAsString()+" with code "+currentNode.getEscapedCodeStr()+" is not variable!");
 		}
 	}
 
@@ -712,13 +707,13 @@ public class FunctionContentBuilder extends ASTNodeBuilder {
 			PreBlockstarter topOfStack = (PreBlockstarter) preASTItemStack.peek();		
 			//Connect the current node with its parent
 			topOfStack.addChild(currentNode);	
-			logger.debug("Connected AST child: "+currentNode.getEscapedCodeStr()+" with parent: "+topOfStack.getEscapedCodeStr());
+			//System.out.println("Connected AST child: "+currentNode.getEscapedCodeStr()+" with parent: "+topOfStack.getEscapedCodeStr());
 		
 			// Stop if we reach an PreIfStatement
 			if (topOfStack instanceof PreIfStatement) {
 				//Remove the PreIfStatement node from the stack and stop the iteration
 				currentNode = (PreBlockstarter) preASTItemStack.pop();
-				logger.debug("Found #if with code "+currentNode.getEscapedCodeStr()+" for #endif");		
+				//System.out.println("Found #if with code "+currentNode.getEscapedCodeStr()+" for #endif");		
 			} else {
 				//Connect AST children until we reach a PreIfStatement or there is only 1 item left on the stack
 				closeASTBlock();
@@ -727,7 +722,7 @@ public class FunctionContentBuilder extends ASTNodeBuilder {
 		} else if (preASTItemStack.size() == 1)  {
 			//Remove orphaned #endif statements
 			PreBlockstarter lastNode = (PreBlockstarter) preASTItemStack.pop();
-			logger.debug("Removed orphan: "+lastNode.getEscapedCodeStr()+ " in: "+lastNode.getPath()+ " line: "+lastNode.getLine()+" on function level");
+			//System.out.println("Removed orphan: "+lastNode.getEscapedCodeStr()+ " in: "+lastNode.getPath()+ " line: "+lastNode.getLine()+" on function level");
 		}
 	}
 
@@ -766,7 +761,7 @@ public class FunctionContentBuilder extends ASTNodeBuilder {
 			//Save for later, because we need the commentee to be initialized
 			pendingList.add(comment);
 			
-			logger.debug("Found commentee in same line "+previousStatement.getEscapedCodeStr());
+			//System.out.println("Found commentee in same line "+previousStatement.getEscapedCodeStr());
 			return true;
 		} else {
 			return false;
@@ -783,7 +778,7 @@ public class FunctionContentBuilder extends ASTNodeBuilder {
 			Comment comment = commentStack.pop();
 			// Add the current node (which is underneath the comment) as commentee
 			comment.setCommentee(node);
-			logger.debug("Found commentee "+node.getEscapedCodeStr());
+			//System.out.println("Found commentee "+node.getEscapedCodeStr());
 			//Save for later, because we need the commentee to be initialized
 			pendingList.add(comment);
 		}
@@ -1431,7 +1426,7 @@ public class FunctionContentBuilder extends ASTNodeBuilder {
 	}
 	
 	public void enterStructUnionEnum(ParserRuleContext ctx) {
-		logger.debug("Enter function struct");
+		//System.out.println("Enter function struct");
 		StructUnionEnum struct = new StructUnionEnum();
 		ASTNodeFactory.initializeFromContext(struct, ctx);
 
@@ -1453,12 +1448,12 @@ public class FunctionContentBuilder extends ASTNodeBuilder {
 
 	
 	public void exitStructUnionEnum() {
-		logger.debug("Leave function struct");
+		//System.out.println("Leave function struct");
 		nesting.consolidate();
 	}
 	
 	public void enterFunctionPointerDeclare(ParserRuleContext ctx) {
-		logger.debug("Enter FunctionPointerDeclare");
+		//System.out.println("Enter FunctionPointerDeclare");
 		FunctionPointerDeclare fpdecl = new FunctionPointerDeclare();
 		ASTNodeFactory.initializeFromContext(fpdecl, ctx);
 
@@ -1480,7 +1475,7 @@ public class FunctionContentBuilder extends ASTNodeBuilder {
 
 	
 	public void exitFunctionPointerDeclare() {
-		logger.debug("Leave FunctionPointerDeclare");
+		//System.out.println("Leave FunctionPointerDeclare");
 		nesting.consolidate();
 	}	
 

@@ -1,18 +1,12 @@
 package joern.plugins.importer;
 
 import java.io.IOException;
-
 import org.json.JSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import fileWalker.OrderedWalker;
 import joern.api.JoernProject;
 import joern.api.plugintypes.JoernProjectPlugin;
 
 public class JoernImporter extends JoernProjectPlugin {
-
-	private static final Logger logger = LoggerFactory.getLogger(JoernImporter.class);
 
 	private boolean parsecode = true;
 	private boolean importcsv = true;
@@ -52,7 +46,7 @@ public class JoernImporter extends JoernProjectPlugin {
 
 
 	private void parseSourceCode() {
-		logger.warn("Parsing code");
+		System.out.println("Parsing code");
 
 		String parserOutputDirectory = joernProject.getParserOutputDirectory();
 		//This path is not on the server
@@ -63,11 +57,11 @@ public class JoernImporter extends JoernProjectPlugin {
 		parserWrapper.initialize(parserOutputDirectory);
 		parserWrapper.walkCodebase(new String[] { sourceCodeDirectory });
 
-		logger.warn("Parsing complete");
+		System.out.println("Parsing complete");
 	}
 
 	private void importCSVFilesIntoDatabase() throws IOException {
-		logger.warn("Importing graph");
+		System.out.println("Importing graph");
 
 		String parserOutputDirectory = joernProject.getParserOutputDirectory();
 
@@ -79,7 +73,7 @@ public class JoernImporter extends JoernProjectPlugin {
 		walker.addListener(listener);
 		walker.walk(new String[] { parserOutputDirectory });
 
-		logger.warn("Import complete");
+		System.out.println("Import complete");
 	}
 
 }

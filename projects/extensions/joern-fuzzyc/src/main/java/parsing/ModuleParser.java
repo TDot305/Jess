@@ -1,19 +1,16 @@
 package parsing;
 
 import java.util.Observer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class ModuleParser {
 	ANTLRParserDriver parserDriver;
-	private static final Logger logger = LoggerFactory.getLogger(ModuleParser.class);
 
 	public ModuleParser(ANTLRParserDriver driver) {
 		parserDriver = driver;
 	}
 
 	public void parseFile(String filename) {
-		logger.warn("Parsing: "+filename);
+		System.out.println("Parsing: "+filename);
 
 		try {
 			parserDriver.parseAndWalkFile(filename);

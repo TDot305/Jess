@@ -9,8 +9,6 @@ import org.apache.tinkerpop.gremlin.structure.*;
 import org.graphstream.stream.SinkAdapter;
 import org.graphstream.stream.file.FileSource;
 import org.graphstream.stream.file.FileSourceFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 
 public class GraphstreamImporter extends SinkAdapter {
@@ -55,13 +53,12 @@ public class GraphstreamImporter extends SinkAdapter {
 	}
 
 	class GraphEdgeNotFoundException extends Exception {
+
 	}
 
 	Graph graph;
 	int transaction_element_count = 0;
 
-	private static final Logger logger = LoggerFactory
-			.getLogger(GraphstreamImporter.class);
 
 	public void importGraphstreamFiles(String streamFilename)
 			throws IOException
@@ -152,7 +149,7 @@ public class GraphstreamImporter extends SinkAdapter {
 	@Override
 	public void edgeAttributeAdded(String sourceId, long timeId, String edgeId,
 			String attribute, Object value) {
-		logger.warn("edgeAttributeAdded not implemented");
+		System.out.println("edgeAttributeAdded not implemented");
 	}
 
 	@Override
@@ -163,39 +160,39 @@ public class GraphstreamImporter extends SinkAdapter {
             Edge edge = findEdge(edge_info);
             edge.property(attribute,newValue);
 		} catch (EdgeInfoFormatException e) {
-			logger.error("edgeAttributeChanged: invalid edge-id format {}", edgeId);
+			System.err.println("edgeAttributeChanged: invalid edge-id format "+ edgeId);
 		} catch (EdgeInfoNodeNotFoundException e) {
-			logger.error("edgeAttributeChanged: could not find source node for {}", edgeId);
+			System.err.println("edgeAttributeChanged: could not find source node for "+ edgeId);
 		} catch (GraphEdgeNotFoundException e) {
-			logger.error("edgeAttributeChanged: could not find edge {}", edgeId);
+			System.err.println("edgeAttributeChanged: could not find edge "+ edgeId);
 		} catch (java.lang.IllegalArgumentException e) {
 		    // only simple values are allowed as edge attributes
-			logger.error("edgeAttributeChanged: could not add value {}", newValue.toString());
+			System.err.println("edgeAttributeChanged: could not add value "+ newValue.toString());
 		}
 	}
 
 	@Override
 	public void edgeAttributeRemoved(String sourceId, long timeId,
 			String edgeId, String attribute) {
-		logger.warn("edgeAttributeRemoved not implemented");
+		System.out.println("edgeAttributeRemoved not implemented");
 	}
 
 	@Override
 	public void graphAttributeAdded(String sourceId, long timeId,
 			String attribute, Object value) {
-		logger.warn("graphAttributeAdded not implemented");
+		System.out.println("graphAttributeAdded not implemented");
 	}
 
 	@Override
 	public void graphAttributeChanged(String sourceId, long timeId,
 			String attribute, Object oldValue, Object newValue) {
-		logger.warn("graphAttributeChanged not implemented");
+		System.out.println("graphAttributeChanged not implemented");
 	}
 
 	@Override
 	public void graphAttributeRemoved(String sourceId, long timeId,
 			String attribute) {
-		logger.warn("graphAttributeRemoved not implemented");
+		System.out.println("graphAttributeRemoved not implemented");
 	}
 
 	@Override
@@ -226,20 +223,20 @@ public class GraphstreamImporter extends SinkAdapter {
                 try {
 					v.property(VertexProperty.Cardinality.list, attribute, newValue);
 				} catch (com.thinkaurelius.titan.core.SchemaViolationException e) {
-					logger.error("nodeAttributeChanged on node {}: list properties are not supported.", nodeId);
+					System.err.println("nodeAttributeChanged on node "+nodeId+": list properties are not supported.");
 				}
 			} else {
 				v.property(attribute, newValue);
 			}
 		} else {
-			logger.error("nodeAttributeChanged: could not find node {}", nodeId);
+			System.err.println("nodeAttributeChanged: could not find node "+ nodeId);
 		}
 	}
 
 	@Override
 	public void nodeAttributeRemoved(String sourceId, long timeId,
 			String nodeId, String attribute) {
-		logger.warn("nodeAttributeRemoved not implemented");
+		System.out.println("nodeAttributeRemoved not implemented");
 	}
 
 	@Override
@@ -249,10 +246,10 @@ public class GraphstreamImporter extends SinkAdapter {
 		Vertex toVertex = findVertexWithKey(toNodeId);
 		// the nodes need to have been defined and created before we can add the edge
 		if (fromVertex == null) {
-			logger.error("edgeAdded: could not find source node {}", fromNodeId);
+			System.err.println("edgeAdded: could not find source node "+ fromNodeId);
 		}
 		if (toVertex == null) {
-			logger.error("edgeAdded: could not find destination node {}", toNodeId);
+			System.err.println("edgeAdded: could not find destination node "+ toNodeId);
 		}
 		if ((fromVertex != null) && (toVertex != null)) {
 			// we assume edgeId has a certain format, so that we do not have to defer
@@ -261,19 +258,19 @@ public class GraphstreamImporter extends SinkAdapter {
 				EdgeInfo edge_info = new EdgeInfo(edgeId);
 				fromVertex.addEdge(edge_info.getLabel(), toVertex);
 			} catch (EdgeInfoFormatException e) {
-				logger.error("edgeAdded: invalid edge-id format {}", edgeId);
+				System.err.println("edgeAdded: invalid edge-id format "+ edgeId);
 			}
 		}
 	}
 
 	@Override
 	public void edgeRemoved(String sourceId, long timeId, String edgeId) {
-		logger.warn("edgeRemoved not implemented");
+		System.out.println("edgeRemoved not implemented");
 	}
 
 	@Override
 	public void graphCleared(String sourceId, long timeId) {
-		logger.warn("graphCleared not implemented");
+		System.out.println("graphCleared not implemented");
 	}
 
 	@Override
@@ -283,11 +280,11 @@ public class GraphstreamImporter extends SinkAdapter {
 
 	@Override
 	public void nodeRemoved(String sourceId, long timeId, String nodeId) {
-		logger.warn("nodeRemoved not implemented");
+		System.out.println("nodeRemoved not implemented");
 	}
 
 	@Override
 	public void stepBegins(String sourceId, long timeId, double step) {
-		logger.warn("stepBegins not implemented");
+		System.out.println("stepBegins not implemented");
 	}
 }

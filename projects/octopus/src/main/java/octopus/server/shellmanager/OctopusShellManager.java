@@ -2,22 +2,16 @@ package octopus.server.shellmanager;
 
 import java.util.LinkedList;
 import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import octopus.server.gremlinShell.OctopusGremlinShell;
 
 public class OctopusShellManager {
-	private static final Logger logger = LoggerFactory.getLogger(OctopusShellManager.class);
-
 	private static final int MAX_SHELLS = 1024;
 	private static final int FIRST_PORT = 6000;
 
 	static OctopusGremlinShell[] shells;
 
 	static {
-		logger.info("Initializing ShellManager");
+		//System.out.println("Initializing ShellManager");
 		shells = new OctopusGremlinShell[MAX_SHELLS];
 	}
 
