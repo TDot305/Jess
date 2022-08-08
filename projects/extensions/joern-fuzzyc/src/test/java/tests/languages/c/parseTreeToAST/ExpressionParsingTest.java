@@ -694,15 +694,19 @@ public class ExpressionParsingTest {
 	
 	@Test
 	public void onelineCommentInSameLineAsStatement() {
-		String input = "char text[] = \"\\xFF\\xFE\"  //BOM \n" + 
-				"\"<\\000e\\000/\\000>\\000\"  //document element \n" + 
-				"\"\\r\\000\\n\\000\\r\\000\\n\\000\"; // epilog ";
+		String input = "char multilineString[] =\n" + 
+				"    \"This is a\"\n" + 
+				"    \" multiline\" //comment\n" + 
+				"    \"definition\";";
 		CompoundStatement contentItem = (CompoundStatement) FunctionContentTestUtil.parseAndWalk(input);
 		IdentifierDeclStatement statementItem = (IdentifierDeclStatement) contentItem.getStatements().get(0);
-		assertEquals("char text [ ] = \"\\xFF\\xFE\" //BOM \n" + 
-				" \"<\\000e\\000/\\000>\\000\" //document element \n" + 
-				" \"\\r\\000\\n\\000\\r\\000\\n\\000\" ;", statementItem.getEscapedCodeStr());
+		assertEquals("char multilineString [ ] = \n" + 
+				" \"This is a\" \n" + 
+				" \" multiline\" //comment\n" + 
+				" \"definition\" ;", statementItem.getEscapedCodeStr());
 	}
+	
+
 	
 	@Test
 	public void strangeComment() {

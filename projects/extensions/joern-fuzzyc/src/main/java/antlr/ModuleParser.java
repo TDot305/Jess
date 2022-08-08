@@ -2746,6 +2746,10 @@ public class ModuleParser extends Parser {
 		public TerminalNode MULTILINE_COMMENT(int i) {
 			return getToken(ModuleParser.MULTILINE_COMMENT, i);
 		}
+		public List<TerminalNode> ONELINE_COMMENT() { return getTokens(ModuleParser.ONELINE_COMMENT); }
+		public TerminalNode ONELINE_COMMENT(int i) {
+			return getToken(ModuleParser.ONELINE_COMMENT, i);
+		}
 		public TerminalNode CHAR() { return getToken(ModuleParser.CHAR, 0); }
 		public TerminalNode FLOATING_POINT_LITERAL() { return getToken(ModuleParser.FLOATING_POINT_LITERAL, 0); }
 		public TerminalNode HEX_FLOAT() { return getToken(ModuleParser.HEX_FLOAT, 0); }
@@ -2766,6 +2770,7 @@ public class ModuleParser extends Parser {
 	public final ConstantContext constant() throws RecognitionException {
 		ConstantContext _localctx = new ConstantContext(_ctx, getState());
 		enterRule(_localctx, 62, RULE_constant);
+		int _la;
 		try {
 			int _alt;
 			setState(573);
@@ -2822,7 +2827,12 @@ public class ModuleParser extends Parser {
 								{
 								{
 								setState(557);
-								match(MULTILINE_COMMENT);
+								_la = _input.LA(1);
+								if ( !(_la==MULTILINE_COMMENT || _la==ONELINE_COMMENT) ) {
+								_errHandler.recoverInline(this);
+								} else {
+									consume();
+								}
 								}
 								} 
 							}
@@ -12211,7 +12221,7 @@ public class ModuleParser extends Parser {
 		"\t\6\2\2\u0225=\3\2\2\2\u0226\u0227\t\7\2\2\u0227?\3\2\2\2\u0228\u0240"+
 		"\7r\2\2\u0229\u0240\7t\2\2\u022a\u0240\7s\2\2\u022b\u022d\7z\2\2\u022c"+
 		"\u022e\7C\2\2\u022d\u022c\3\2\2\2\u022d\u022e\3\2\2\2\u022e\u0232\3\2"+
-		"\2\2\u022f\u0231\7w\2\2\u0230\u022f\3\2\2\2\u0231\u0234\3\2\2\2\u0232"+
+		"\2\2\u022f\u0231\t\5\2\2\u0230\u022f\3\2\2\2\u0231\u0234\3\2\2\2\u0232"+
 		"\u0230\3\2\2\2\u0232\u0233\3\2\2\2\u0233\u0236\3\2\2\2\u0234\u0232\3\2"+
 		"\2\2\u0235\u0237\7C\2\2\u0236\u0235\3\2\2\2\u0236\u0237\3\2\2\2\u0237"+
 		"\u0239\3\2\2\2\u0238\u022b\3\2\2\2\u0239\u023a\3\2\2\2\u023a\u0238\3\2"+
