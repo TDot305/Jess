@@ -3,15 +3,11 @@ package tests.languages.c.parseTreeToAST;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import java.util.List;
-
 import org.junit.Test;
 
 import antlr.FunctionParser.StatementsContext;
-import ast.ASTNode;
 import ast.Comment;
 import ast.c.expressions.CallExpression;
-import ast.c.functionDef.FunctionDef;
 import ast.c.statements.blockstarters.ElseStatement;
 import ast.c.statements.blockstarters.IfStatement;
 import ast.declarations.IdentifierDecl;

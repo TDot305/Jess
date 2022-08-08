@@ -693,6 +693,18 @@ public class ExpressionParsingTest {
 	}
 	
 	@Test
+	public void onelineCommentInSameLineAsStatement() {
+		String input = "char text[] = \"\\xFF\\xFE\"  //BOM \n" + 
+				"\"<\\000e\\000/\\000>\\000\"  //document element \n" + 
+				"\"\\r\\000\\n\\000\\r\\000\\n\\000\"; // epilog ";
+		CompoundStatement contentItem = (CompoundStatement) FunctionContentTestUtil.parseAndWalk(input);
+		IdentifierDeclStatement statementItem = (IdentifierDeclStatement) contentItem.getStatements().get(0);
+		assertEquals("char text [ ] = \"\\xFF\\xFE\" //BOM \n" + 
+				" \"<\\000e\\000/\\000>\\000\" //document element \n" + 
+				" \"\\r\\000\\n\\000\\r\\000\\n\\000\" ;", statementItem.getEscapedCodeStr());
+	}
+	
+	@Test
 	public void strangeComment() {
 		String input = "/* skip remaining characters if truncation width exceeded, needs to be done\n" + 
 				" * before highlight opening */\n" + 

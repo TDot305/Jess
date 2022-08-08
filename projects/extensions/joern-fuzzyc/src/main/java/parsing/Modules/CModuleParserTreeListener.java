@@ -42,7 +42,7 @@ public class CModuleParserTreeListener extends ModuleBaseListener {
 	/**
 	 * This stack contains PreBlockstarters that can implement variability
 	 */
-	private Stack<ASTNode> variabilityItemStack = new Stack<ASTNode>();;
+	private Stack<ASTNode> variabilityItemStack = new Stack<ASTNode>();
 	/**
 	 * This stack contains PreBlockstarters that can be nested on AST level (including #endif)
 	 */
