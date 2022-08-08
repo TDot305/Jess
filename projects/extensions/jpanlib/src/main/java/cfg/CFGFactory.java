@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 
 import ast.ASTNode;
 import ast.Comment;
+import ast.expressions.PreFragment;
 import ast.functionDef.FunctionDefBase;
 import ast.functionDef.ParameterBase;
 import ast.functionDef.ParameterList;
@@ -15,6 +16,7 @@ import ast.logical.statements.BlockCloser;
 import ast.logical.statements.BreakOrContinueStatement;
 import ast.logical.statements.CompoundStatement;
 import ast.logical.statements.Label;
+import ast.preprocessor.PreBlockstarter;
 import ast.statements.blockstarters.CatchStatement;
 import ast.statements.blockstarters.DoStatement;
 import ast.statements.blockstarters.ForStatement;
@@ -423,19 +425,17 @@ public class CFGFactory {
 	}
 
 	public static CFG convert(ASTNode node) {
-		if (node == null)
-			return newInstance();
-		
-		//Dont include void parameter nodes
-		if(node instanceof ParameterBase && ((ParameterBase) node).isVoid) {
-			return newInstance();
-		}
-		
-		//Dont include block closers or comments
-		if(node instanceof BlockCloser || node instanceof Comment) {
+
+		//Dont include null nodes, block closers, comments, conditional compilation statements, or void parameter nodes
+		if(node == null 
+				|| node instanceof BlockCloser 
+				|| node instanceof Comment 
+				|| node instanceof PreBlockstarter 
+				|| node instanceof PreFragment 
+				|| (node instanceof ParameterBase && ((ParameterBase) node).isVoid) ) {
 			return newInstance();
 		}
-		
+				
 		node.accept(structuredFlowVisitior);
 		return structuredFlowVisitior.getCFG();
 	}

@@ -98,6 +98,20 @@ public class OtherTests extends CCFGCreatorTest {
 		CFG cfg = getCFGForCode(input);
 		assertEquals(3, cfg.numberOfEdges());
 	}
+	
+	@Test
+	public void testComment() {
+		String input = "//Comment\n y = 20;";
+		CFG cfg = getCFGForCode(input);
+		assertEquals(2, cfg.numberOfEdges());
+	}
+	
+	@Test
+	public void testIfdef() {
+		String input = "#ifdef A\n y = 20;\n#endif";
+		CFG cfg = getCFGForCode(input);
+		assertEquals(2, cfg.numberOfEdges());
+	}
 
 	@Test
 	public void testReturnExitBlock() {
