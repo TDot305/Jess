@@ -87,7 +87,7 @@ constant
     :   HEX_LITERAL
     |   OCTAL_LITERAL
     |   DECIMAL_LITERAL
-	|	(STRING NEWLINE? (MULTILINE_COMMENT|ONELINE_COMMENT)* NEWLINE?)+ //Comment should be comment, but currently parser cannot handle this
+	|	(STRING NEWLINE? expression_fragment* NEWLINE?)+ //Comment should be comment, but currently parser cannot handle this
     |   CHAR
     |   FLOATING_POINT_LITERAL
     |   HEX_FLOAT

@@ -21,6 +21,7 @@ import ast.expressions.FunctionPointerUseExpression;
 import ast.expressions.InclusiveOrExpression;
 import ast.expressions.MultiplicativeExpression;
 import ast.expressions.OrExpression;
+import ast.expressions.PreFragment;
 import ast.expressions.RelationalExpression;
 import ast.expressions.ShiftExpression;
 import ast.logical.statements.BlockStarter;
@@ -706,7 +707,30 @@ public class ExpressionParsingTest {
 				" \"definition\" ;", statementItem.getEscapedCodeStr());
 	}
 	
-
+	@Test
+	public void onelineCommentAndIfdefInSameLineAsStatement() {
+		String input = "char multilineString[] =\n" + 
+				"    \"This is a\"\n" + 
+				"    #ifdef A\n" + 
+				"    \" variant A\"\n" + 
+				"    #endif\n" + 
+				"    \" multiline\" //comment\n" + 
+				"    \"definition\";";
+		CompoundStatement contentItem = (CompoundStatement) FunctionContentTestUtil.parseAndWalk(input);
+		IdentifierDeclStatement statementItem = (IdentifierDeclStatement) contentItem.getStatements().get(2);
+		PreFragment statementPreIf = (PreFragment) contentItem.getStatements().get(0);
+		PreFragment statementEndif = (PreFragment) contentItem.getStatements().get(1);
+		assertEquals("char multilineString [ ] = \n" + 
+				" \"This is a\" \n" + 
+				" #ifdef A \n" + 
+				" \" variant A\" \n" + 
+				" #endif \n" + 
+				" \" multiline\" //comment\n" + 
+				" \"definition\" ;", statementItem.getEscapedCodeStr());
+		assertEquals("#ifdef A \n", statementPreIf.getEscapedCodeStr());
+		assertEquals("#endif", statementEndif.getEscapedCodeStr());
+		
+	}
 	
 	@Test
 	public void strangeComment() {
