@@ -169,7 +169,7 @@ public class ExpressionParsingTest {
 				"        params->encoder_name ? params->encoder_name : \"-\",\n" + 
 				"    };";
 		CompoundStatement contentItem = (CompoundStatement) FunctionContentTestUtil.parseAndWalk(input);
-		IdentifierDeclStatement statementItem = (IdentifierDeclStatement) contentItem.getStatements().get(6); //If we have preFragments, they are the first childs of the compound		
+		IdentifierDeclStatement statementItem = (IdentifierDeclStatement) contentItem.getStatements().get(0); 
 		assertEquals("const char * const cmd [ ] = { \n" + 
 				" \"shell\" , \n" + 
 				" \"CLASSPATH=\" DEVICE_SERVER_PATH , \n" + 
@@ -219,9 +219,9 @@ public class ExpressionParsingTest {
 				"#endif\n" + 
 				"		) ? SUCCESS : FAILURE;";
 		CompoundStatement contentItem = (CompoundStatement) FunctionContentTestUtil.parseAndWalk(input);
-		assertEquals("PreFragment",  contentItem.getStatements().get(0).getTypeAsString());
-		assertEquals("#if defined ( AF_UNIX ) && ! ( defined ( PHP_WIN32 ) || defined ( __riscos__ ) ) \n",  contentItem.getStatements().get(0).getEscapedCodeStr());
-		ReturnStatement statementItem = (ReturnStatement) contentItem.getStatements().get(2); // 0 + 1 are the preFragments
+		ReturnStatement statementItem = (ReturnStatement) contentItem.getStatements().get(0); 
+		assertEquals("PreFragment",  statementItem.getChild(0).getTypeAsString()); //PreFragments are the first childs
+		assertEquals("#if defined ( AF_UNIX ) && ! ( defined ( PHP_WIN32 ) || defined ( __riscos__ ) ) \n",  statementItem.getChild(0).getEscapedCodeStr());		
 		assertEquals("return ( php_stream_xport_register ( \"tcp\" , php_stream_generic_socket_factory ) == SUCCESS \n" + 
 				" && \n" + 
 				" php_stream_xport_register ( \"udp\" , php_stream_generic_socket_factory ) == SUCCESS \n" + 
@@ -717,9 +717,9 @@ public class ExpressionParsingTest {
 				"    \" multiline\" //comment\n" + 
 				"    \"definition\";";
 		CompoundStatement contentItem = (CompoundStatement) FunctionContentTestUtil.parseAndWalk(input);
-		IdentifierDeclStatement statementItem = (IdentifierDeclStatement) contentItem.getStatements().get(2);
-		PreFragment statementPreIf = (PreFragment) contentItem.getStatements().get(0);
-		PreFragment statementEndif = (PreFragment) contentItem.getStatements().get(1);
+		IdentifierDeclStatement statementItem = (IdentifierDeclStatement) contentItem.getStatements().get(0);
+		PreFragment statementPreIf = (PreFragment) statementItem.getChild(0);
+		PreFragment statementEndif = (PreFragment) statementItem.getChild(1);
 		assertEquals("char multilineString [ ] = \n" + 
 				" \"This is a\" \n" + 
 				" #ifdef A \n" + 

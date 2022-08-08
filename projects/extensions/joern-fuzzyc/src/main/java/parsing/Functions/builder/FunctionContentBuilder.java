@@ -5,7 +5,9 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Stack;
+
 import org.antlr.v4.runtime.ParserRuleContext;
+
 import antlr.FunctionParser.Additive_expressionContext;
 import antlr.FunctionParser.Address_of_expressionContext;
 import antlr.FunctionParser.And_expressionContext;
@@ -179,7 +181,6 @@ import ast.statements.jump.GotoStatement;
 import ast.statements.jump.ReturnStatement;
 import ast.statements.jump.ThrowStatement;
 import parsing.ASTNodeFactory;
-import parsing.Modules.CModuleParserTreeListener;
 import parsing.Shared.InitDeclContextWrapper;
 import parsing.Shared.builders.IdentifierDeclBuilder;
 
@@ -721,7 +722,7 @@ public class FunctionContentBuilder extends ASTNodeBuilder {
 			
 		} else if (preASTItemStack.size() == 1)  {
 			//Remove orphaned #endif statements
-			PreBlockstarter lastNode = (PreBlockstarter) preASTItemStack.pop();
+			preASTItemStack.pop();
 			//System.out.println("Removed orphan: "+lastNode.getEscapedCodeStr()+ " in: "+lastNode.getPath()+ " line: "+lastNode.getLine()+" on function level");
 		}
 	}
@@ -735,7 +736,8 @@ public class FunctionContentBuilder extends ASTNodeBuilder {
 	public void enterPreFragment(Preprocessor_fragmentContext ctx) {
 		PreFragment expression = new PreFragment();
 		ASTNodeFactory.initializeFromContext(expression, ctx);
-		rootCompound.addChild(expression); 
+		stack.get(1).addChild(expression); //Adds the fragment to the first statement on the stack
+		//rootCompound.addChild(expression); //This would add the fragment to the toplevel compound and not its parent statement
 //		stack.push(expression);	//We need to put this item to the stack, as otherwise the following preStatement would replace the topOfStack
 	}
 	

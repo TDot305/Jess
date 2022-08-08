@@ -20,6 +20,10 @@ public class ContentBuilderStack {
 		shadowStack.pop();
 		return itemStack.pop();
 	}
+	
+	public ASTNode get(int i) {
+		return itemStack.get(i);
+	}
 
 	public int size() {
 		return itemStack.size();

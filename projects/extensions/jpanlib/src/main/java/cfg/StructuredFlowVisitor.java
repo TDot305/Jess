@@ -1,7 +1,6 @@
 package cfg;
 
 import ast.ASTNode;
-import ast.Comment;
 import ast.logical.statements.CompoundStatement;
 import ast.walking.ASTNodeVisitor;
 
