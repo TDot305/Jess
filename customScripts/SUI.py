@@ -9,7 +9,7 @@ from joern.shelltool.PlotConfiguration import PlotConfiguration
 from joern.shelltool.PlotResult import NodeResult, EdgeResult
 
 ###################### Configuration options for input format ######################
-console = False
+console = True
 
 ################# Configuration options for entry point handling (only affecting string/identifier/feature and not id) #################
 includeBackwardSlice = True #Recommended: True. Classical syntax preserving backward slice, includes all statements that appear previously in the control flow and are reachable either via dataflow or are structural (AST) parents.
@@ -50,7 +50,7 @@ addAssociatedComments = True
 generateOnlyAST = False
 generateOnlyVisibleCode = True
 showOnlyStructuralEdges = True
-plotGraph = False
+plotGraph = True
 
 #################### Configuration options for debug output (console) ####################
 DEBUG = False
@@ -1049,13 +1049,17 @@ def getNodeParents (nodes, type):
        
         if (type == "identifier"):
             # Find the visible parent nodes of an identifier that matches the given string
-            query = """g.V().has('type', 'Identifier').has('code', '%s').repeat(__.in('IS_AST_PARENT')).until(has('type', within(%s))).dedup().id()""" % (currentNode, visibleStatementTypes)  
+            query = """g.V().has('type', 'Identifier').has('code', '%s').repeat(__.in('IS_AST_PARENT').dedup()).until(has('type', within(%s))).dedup().id()""" % (currentNode, visibleStatementTypes)  
         elif (type == "string"):
-            # Find the visible parent nodes of an node that contains the given string
-            query = """g.V().has('code', textContains('%s')).repeat(__.in('IS_AST_PARENT')).until(has('type', within(%s))).dedup().id()""" % (currentNode, visibleStatementTypes)
+            # Find the visible parent nodes of a node that contains the given string
+            query = """g.V().has('code', textRegex('(.|\\n|\\r)*(%s)(.|\\n|\\r)*')).until(has('type', within(%s))).repeat(__.in('IS_AST_PARENT').dedup()).dedup().id()""" % (currentNode, visibleStatementTypes)
         elif (type == "feature"):
             # Find all #if/#elfif nodes that contain the name of the feature and all nodes that belong to the variability blocks
-            query = """g.V().has('type', within('PreIfStatement','PreElIfStatement')).has('code', textContains('%s')).union(id(), out('VARIABILITY').dedup().id())""" % (currentNode)             
+            query = """g.V().union(
+                    has('type', 'PreFragment').has('code', textRegex('(.|\\n|\\r)*(%s)(.|\\n|\\r)*')).in('IS_AST_PARENT').id()
+                    , has('type', within('PreIfStatement','PreElIfStatement')).has('code', textRegex('(.|\\n|\\r)*(%s)(.|\\n|\\r)*')).union(id(),out('VARIABILITY').id())
+                    )"""  % (currentNode,currentNode) 
+                
         
         # Save nodes for the next query
         nodes = db.runGremlinQuery(query)
@@ -2070,5 +2074,5 @@ def output(G):
 
 # Un-comment to run the script via console
 # Evaluation mode? (if False: the other parameters have no effect), "entryPointType", "pathOrNameOrIdentifierOrString", "statementLine", "statementType"
-#initializeSUI(True, "Location", ["src/dfa.c"],"3602","FunctionDef")    
+initializeSUI(False, "Location", ["src/dfa.c"],"3602","FunctionDef")    
 
