@@ -736,7 +736,14 @@ public class FunctionContentBuilder extends ASTNodeBuilder {
 	public void enterPreFragment(Preprocessor_fragmentContext ctx) {
 		PreFragment expression = new PreFragment();
 		ASTNodeFactory.initializeFromContext(expression, ctx);
-		stack.get(1).addChild(expression); //Adds the fragment to the first statement on the stack
+		ASTNode potentialParent = stack.get(1);
+		if (!(potentialParent instanceof IfStatement)) {
+			//Adds the fragment to the first statement on the stack (if it's not an if statement)
+			potentialParent.addChild(expression); 
+		} else {
+			//Adds it to the second item (if condition) to avoid problems specific to if statement children handling
+			stack.get(2).addChild(expression); 
+		}
 		//rootCompound.addChild(expression); //This would add the fragment to the toplevel compound and not its parent statement
 //		stack.push(expression);	//We need to put this item to the stack, as otherwise the following preStatement would replace the topOfStack
 	}

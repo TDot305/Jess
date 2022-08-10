@@ -15,6 +15,15 @@ public class IfStatement extends IfStatementBase {
 		return childCount;
 	}
 
+	public ASTNode getChild(int i) {
+		if (i == 0)
+			return condition;
+		else if (i == 1)
+			return statement;
+		else if (i == 2)
+			return getElseNode();
+		throw new RuntimeException("Invalid IfItem");
+	}
 
 	public ElseStatement getElseNode() {
 		return elseNode;
