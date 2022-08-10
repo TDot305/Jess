@@ -1054,11 +1054,11 @@ def getNodeParents (nodes, type):
             # Find the visible parent nodes of a node that contains the given string
             query = """g.V().has('code', textRegex('(.|\\n|\\r)*(%s)(.|\\n|\\r)*')).until(has('type', within(%s))).repeat(__.in('IS_AST_PARENT').dedup()).dedup().id()""" % (currentNode, visibleStatementTypes)
         elif (type == "feature"):
-            # Find all #if/#elfif nodes that contain the name of the feature and all nodes that belong to the variability blocks
+            # Find all #if/#elfif and PreFragment nodes that contain the name of the feature and all nodes that belong to the variability blocks
             query = """g.V().union(
-                    has('type', 'PreFragment').has('code', textRegex('(.|\\n|\\r)*(%s)(.|\\n|\\r)*')).in('IS_AST_PARENT').id()
+                    has('type', 'PreFragment').has('code', textRegex('(.|\\n|\\r)*(%s)(.|\\n|\\r)*')).until(has('type', within(%s))).repeat(__.in('IS_AST_PARENT').dedup()).id()
                     , has('type', within('PreIfStatement','PreElIfStatement')).has('code', textRegex('(.|\\n|\\r)*(%s)(.|\\n|\\r)*')).union(id(),out('VARIABILITY').id())
-                    )"""  % (currentNode,currentNode) 
+                    )"""  % (currentNode,visibleStatementTypes,currentNode) 
                 
         
         # Save nodes for the next query
