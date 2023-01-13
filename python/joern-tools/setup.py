@@ -31,6 +31,6 @@ if (platform.system() == "Linux"):
         packages = find_packages(),
         data_files=[ ('EGG-INFO/scripts/data', ['scripts/plotting/data/plotconfig.cfg'])],
         scripts = getScripts(),
-        install_requires = ['pygraphviz', 'chardet'],
+        install_requires = ['pygraphviz==1.5', 'chardet'],
         zip_safe = False
     )
