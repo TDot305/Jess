@@ -1,6 +1,25 @@
 Name;Donor Commit;Target Commit; Entry Point Type;Entry PathorIDorString;Entry Line;Entry Node Type;Test Folder;Test Name
+scrcpy;f9d2d99166f2259f05cd348fcde019b9a314d780;ec71a3f66ab48c2fdd1728753acc09edbd4db570;Location;{app/tests/test_device_event_deserialize.c};7;FunctionDef;app/tests/;test_device_event_deserialize.c
+scrcpy;2a3a9d4ea91f9b79b87387a4883af484e702c53a;ca0031cbde8cc4aaed07ddb7523841754c0423d5;Location;{app/tests/test_strutil.c};190;FunctionDef;app/tests/;test_strutil.c
+scrcpy;12a3bb25d39037931f577dc0165b3e517aad92df;3ee9560ece4b4d17031e23b3ac8a0901f86c5694;Location;{app/tests/test_control_msg_serialize.c};216;FunctionDef;app/tests/;test_control_msg_serialize.c
+scrcpy;1982bc439b67829ec815b5e1bd13f1bf4e660f4b;ef56cc6ff74862e85c0af4746fa26ef391f6f3a9;Location;{app/tests/test_cli.c};36;FunctionDef;app/tests/;test_cli.c
+scrcpy;1982bc439b67829ec815b5e1bd13f1bf4e660f4b;ef56cc6ff74862e85c0af4746fa26ef391f6f3a9;String;{lock_video_orientation};"";"";app/tests/;test_cli.c
+scrcpy;eb0f339271862af38693913e5ce1d4078d2c9e56;bdd05b4a16a2b0fc15d2ecf8f832afb9670854ee;Location;{app/tests/test_control_msg_serialize.c};239;FunctionDef;app/tests/;test_control_msg_serialize.c
+scrcpy;eb0f339271862af38693913e5ce1d4078d2c9e56;bdd05b4a16a2b0fc15d2ecf8f832afb9670854ee;String;{rotate_device};"";"";app/tests/;test_control_msg_serialize.c
+scrcpy;63c078ee6ca19c4a2b3d84b04068220ef425aaf4;3149e2cf4a9d7b0db34c30d41077a73f048cb919;Location;{app/tests/test_control_event_serialize.c};181;FunctionDef;app/tests/;test_control_event_serialize.c
 Silver Searcher;73999f1e59272f80fbe79d33d0d619d74211f678;7b24ee5d22d8c43581c21303875723ea6b30c095;Identifier;passthrough;"";"";tests/;passthrough.t
 Silver Searcher;73999f1e59272f80fbe79d33d0d619d74211f678;7b24ee5d22d8c43581c21303875723ea6b30c095;String;passthrough;"";"";tests/;passthrough.t
 Silver Searcher;33d9d711766cbf3c5d9b52aa471722522b231d94;abd982483eabb91b7ccf9eed2a918f638c149a7d;Identifier;{invert_regexes,invert_regexes_len};"";"";tests/;ignore_invert.t
 Silver Searcher;33d9d711766cbf3c5d9b52aa471722522b231d94;abd982483eabb91b7ccf9eed2a918f638c149a7d;String;{invert_regexes,invert_regexes_len};"";"";tests/;ignore_invert.t
 Silver Searcher;33d9d711766cbf3c5d9b52aa471722522b231d94;abd982483eabb91b7ccf9eed2a918f638c149a7d;Location;src/search.c;481;FunctionDef;tests/;ignore_invert.t
+Silver Searcher;c0e7e35be4662672046e1f98aa11c66c786af79e;a744f26ead18fb4c4e6727fbb701b9e5d73cf1c2;Identifier;matches_len;"";"";tests/;invert_match.t
+Silver Searcher;c0e7e35be4662672046e1f98aa11c66c786af79e;a744f26ead18fb4c4e6727fbb701b9e5d73cf1c2;Location;src/util.c;126;FunctionDef;tests/;invert_match.t
+Silver Searcher;210a8763e0b550de9615b890dd1c18e9aa265486;81e22e2756c203cf7df3ee6dd78a77b036e945b7;Identifier;print_path;"";"";tests/;files_with_matches.t
+Silver Searcher;210a8763e0b550de9615b890dd1c18e9aa265486;81e22e2756c203cf7df3ee6dd78a77b036e945b7;Location;src/options.c;427;ExpressionStatement;tests/;files_with_matches.t
+grep;51ef8adb2f7eeb073ba98be4f6baf56817e4d358;6ada8b0a1b3f408ebf76e0cf7f7bb61019a70fdc;Location;{src/grep.c};2414;FunctionDef;tests/;stack-overflow 
+grep;d5bfcc2daa123fa0e8660909052f7ca2ec6b7649;11ce80861109361570cbedda6a966264367f7c76;Location;{src/main.c};1883;FunctionDef;tests/;mb-non-UTF8-performance
+grep;8f365f028427e4f8f6f52e548a3a0cbf3c9e94db;72a4a19a115b0227dd31dc87ed9c4d428eaae9e2;Feature;{HAVE_LANGINFO_CODESET};"";"";tests/;pcre-utf8
+grep;83a95bd8c8561875b948cadd417c653dbe7ef2e2;d433dad3f4183eba763f73345055ba4800cdef43;Location;{src/kwset.c};588;FunctionDef;tests/;kwset-abuse
+php;99c48a24779dab32e004b2bc99441155e217c08f;9a744c66e70d34293eb3726cc9d17a3ddc052e30;Identifier;{bindto};"";"";ext/standard/tests/network/;bindto.phpt
+php;c9fd093127e1386a4cd768749d42fe148a87e9e2;2cca43b3abd47835177f4c0562405f1bcfe6c7ac;Location;{/streams/userspace.c};284;FunctionDef;ext/standard/tests/streams/;bug74951.phpt
+php;13842eda375a87543650fbf95ffc64f00f3586fc;6df761b7ffc0f54d9d282c394a2a5e53c3d036ef;Location;{streams/streams.c};362;FunctionDef;ext/standard/tests/filters/;bug79468.phpt 
