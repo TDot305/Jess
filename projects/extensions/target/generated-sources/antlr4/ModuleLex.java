@@ -1,4 +1,4 @@
-// Generated from ModuleLex.g4 by ANTLR 4.4
+// Generated from ModuleLex.g4 by ANTLR 4.5.3
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.Token;
@@ -10,7 +10,7 @@ import org.antlr.v4.runtime.misc.*;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class ModuleLex extends Lexer {
-	static { RuntimeMetaData.checkVersion("4.4", RuntimeMetaData.VERSION); }
+	static { RuntimeMetaData.checkVersion("4.5.3", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
 	protected static final PredictionContextCache _sharedContextCache =
@@ -31,16 +31,6 @@ public class ModuleLex extends Lexer {
 		"DEFAULT_MODE"
 	};
 
-	public static final String[] tokenNames = {
-		"'\\u0000'", "'\\u0001'", "'\\u0002'", "'\\u0003'", "'\\u0004'", "'\\u0005'", 
-		"'\\u0006'", "'\\u0007'", "'\b'", "'\t'", "'\n'", "'\\u000B'", "'\f'", 
-		"'\r'", "'\\u000E'", "'\\u000F'", "'\\u0010'", "'\\u0011'", "'\\u0012'", 
-		"'\\u0013'", "'\\u0014'", "'\\u0015'", "'\\u0016'", "'\\u0017'", "'\\u0018'", 
-		"'\\u0019'", "'\\u001A'", "'\\u001B'", "'\\u001C'", "'\\u001D'", "'\\u001E'", 
-		"'\\u001F'", "' '", "'!'", "'\"'", "'#'", "'$'", "'%'", "'&'", "'''", 
-		"'('", "')'", "'*'", "'+'", "','", "'-'", "'.'", "'/'", "'0'", "'1'", 
-		"'2'", "'3'", "'4'", "'5'", "'6'", "'7'", "'8'", "'9'", "':'", "';'"
-	};
 	public static final String[] ruleNames = {
 		"ESCAPED_NEWLINE", "NEWLINE", "ESCAPE", "ELLIPSIS", "IF", "ELSE", "FOR", 
 		"WHILE", "BREAK", "CASE", "CONTINUE", "SWITCH", "DO", "GOTO", "RETURN", 
@@ -56,6 +46,59 @@ public class ModuleLex extends Lexer {
 		"OctalEscape", "UnicodeEscape", "HexDigit", "WHITESPACE", "OTHER"
 	};
 
+	private static final String[] _LITERAL_NAMES = {
+		null, null, null, "'\\'", "'...'", "'if'", "'else'", "'for'", "'while'", 
+		"'break'", "'case'", "'continue'", "'switch'", "'do'", "'goto'", "'return'", 
+		"'typedef'", "'static'", "'void'", "'unsigned'", "'signed'", null, "'extern'", 
+		null, null, "'zend_catch'", "'auto'", "'register'", null, null, null, 
+		null, null, null, null, null, null, null, null, null, null, "'GCC'", null, 
+		null, null, "'END_TEST'", null, "'{'", "'}'"
+	};
+	private static final String[] _SYMBOLIC_NAMES = {
+		null, "ESCAPED_NEWLINE", "NEWLINE", "ESCAPE", "ELLIPSIS", "IF", "ELSE", 
+		"FOR", "WHILE", "BREAK", "CASE", "CONTINUE", "SWITCH", "DO", "GOTO", "RETURN", 
+		"TYPEDEF", "STATIC", "VOID", "UNSIGNED", "SIGNED", "CV_QUALIFIER", "EXTERN", 
+		"ASM", "TRY", "CATCH", "AUTO", "REGISTER", "SPECIAL_DATA", "PRE_IF", "PRE_ELIF", 
+		"PRE_ELSE", "PRE_ENDIF", "PRE_DEFINE", "PRE_UNDEF", "PRE_DIAGNOSTIC", 
+		"PRE_OTHER", "PRE_INCLUDE", "PRE_INCLUDE_NEXT", "PRE_LINE", "PRE_PRAGMA", 
+		"PRE_GCC", "PRE_PRAGMA_KEYWORDS", "PRE_STR", "PRE_ATTRIBUTE", "END_TEST", 
+		"ALPHA_NUMERIC", "OPENING_CURLY", "CLOSING_CURLY", "HEX_LITERAL", "DECIMAL_LITERAL", 
+		"OCTAL_LITERAL", "HEX_FLOAT", "FLOATING_POINT_LITERAL", "MULTILINE_COMMENT", 
+		"ONELINE_COMMENT", "CHAR", "STRING", "WHITESPACE", "OTHER"
+	};
+	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
+
+	/**
+	 * @deprecated Use {@link #VOCABULARY} instead.
+	 */
+	@Deprecated
+	public static final String[] tokenNames;
+	static {
+		tokenNames = new String[_SYMBOLIC_NAMES.length];
+		for (int i = 0; i < tokenNames.length; i++) {
+			tokenNames[i] = VOCABULARY.getLiteralName(i);
+			if (tokenNames[i] == null) {
+				tokenNames[i] = VOCABULARY.getSymbolicName(i);
+			}
+
+			if (tokenNames[i] == null) {
+				tokenNames[i] = "<INVALID>";
+			}
+		}
+	}
+
+	@Override
+	@Deprecated
+	public String[] getTokenNames() {
+		return tokenNames;
+	}
+
+	@Override
+
+	public Vocabulary getVocabulary() {
+		return VOCABULARY;
+	}
+
 
 	public ModuleLex(CharStream input) {
 		super(input);
@@ -64,9 +107,6 @@ public class ModuleLex extends Lexer {
 
 	@Override
 	public String getGrammarFileName() { return "ModuleLex.g4"; }
-
-	@Override
-	public String[] getTokenNames() { return tokenNames; }
 
 	@Override
 	public String[] getRuleNames() { return ruleNames; }

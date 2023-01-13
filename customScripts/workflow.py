@@ -181,10 +181,12 @@ def iterateThroughCommits():
             createReposForEvaluation(project[1])
             
             # Install dependencies for project
-            print("* * * Installing dependencies for project * * *")
+            print("* * * Installing dependencies for current project * * *")
+            print("* * * This can be deactivated after doing it once * * *")
             # Quiet output
             #os.system("sudo apt-get install -y "+project[2]+" > /dev/null")
-            print(" ####################### Currently disabled  ####################### ")
+            os.system("sudo apt-get install -y "+project[2])
+            #print(" ####################### Currently disabled  ####################### ")
                     
             
             # Read input of the commit list (list of commits to be evaluated)     
