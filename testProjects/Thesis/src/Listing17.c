@@ -5,5 +5,6 @@ int compute(int value){
 #ifdef DEBUG
     dprint(value)
 #endif
+    printf("Computation complete");
     return value;
 }
