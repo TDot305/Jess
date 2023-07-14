@@ -279,6 +279,13 @@ def analyzeNode (currentNode):
         print("################################################################################################")
         return
 
+################################ No analysis ########################################################################################
+################# No meaningful connections, no direct appearence in the code, already contained in other analyses ##################
+
+    if (type[0] in ['CompoundStatement','IncDec','UnaryOperator','AdditiveExpression','PrimaryExpression','UnaryOperationExpression', 'ArrayIndexing', 'RelationalExpression', 'Sizeof', 'SizeofOperand', 'ReturnType','CFGEntryNode','CFGExitNode','PreMacroParameters','BreakStatement', 'ContinueStatement','Symbol','IdentifierDeclType','IdentifierDecl','ParameterType','RelationalExpression','Decl', 'DeclByType', 'StructUnionEnum', 'FunctionPointerDeclare', 'Label', 'PreInclude', 'PreIncludeNext', 'Statement', 'Comment', 'CustomNode']):
+        #There are no rules for these node types, so just skip them
+        return
+
 ################################ Structural relations ###################################################################
     # Get all included files if current vertice is a Directory
     if (type[0] == "Directory"):
@@ -293,6 +300,9 @@ def analyzeNode (currentNode):
         # Print result
         if (DEBUG): print("Result structural relation: "+str(result)+"\n")
         
+        #Early return because we have no other rules for this node type
+        return
+        
     # Get all enclosed lines of code if current vertice is a File
     if (type[0] == "File"):
         result = set(getEnclosedCodeOfFile(currentNode))
@@ -300,6 +310,9 @@ def analyzeNode (currentNode):
         analysisList.extend(result)
         # Print result
         if (DEBUG): print("Result structural relation: "+str(result)+"\n")
+        
+        #Early return because we have no other rules for this node type
+        return        
         
     # Get enclosed vertices if current vertice is a function declaration
     if ((type[0] == "FunctionDef") and (includeEnclosedCode == True)):
@@ -345,7 +358,7 @@ def analyzeNode (currentNode):
          # Print result
         if (DEBUG): print("Result structural relation: "+str(result)+"\n")
 
-    # Get the AST children if current vertice is an expression, identifierDecl, condition, statement or PreDefine (they could contain Callees)
+    # Get the AST children if current vertice is an expression, IdentifierDeclStatement, condition, statement or PreDefine (they could contain Callees)
     if (type[0] in ["ExpressionStatement", "Condition", "IdentifierDeclStatement", "PreDefine", "PreDiagnostic", "PreOther"]):                       
         result = set(getASTChildren(currentNode))
         # Get related elements of the AST children
@@ -365,7 +378,10 @@ def analyzeNode (currentNode):
         analysisList.extend(result)
          # Print result
         if (DEBUG): print("Result call relation for a Callee: "+str(result)+"\n")       
-
+        
+        #Early return because we have no other rules for this node type
+        return        
+  
     # Get "called" function-like macro if current vertice is a macroCall (e.g. funcCall without ;)
     if (type[0] == "MacroCall"):     
         result = set(getCalledMacroDef(currentNode, type[0]))                
@@ -373,7 +389,10 @@ def analyzeNode (currentNode):
         analysisList.extend(result)
          # Print result
         if (DEBUG): print("Result call relation for a macroCall: "+str(result)+"\n")   
-       
+         
+        #Early return because we have no other rules for this node type
+        return        
+        
     #These nodes can contain calls to macros or functions (TDB 'preprocessor_fragment', prePragma? )    
     if (type[0] in ('PreIfCondition', 'PreMacro')):
         result = set(getCalledFunctionDefOrMacro(currentNode, type[0]))  
@@ -414,7 +433,10 @@ def analyzeNode (currentNode):
         analysisList.extend(result)
          # Print result
         if (DEBUG): print("Result define relation Function: "+str(result)+"\n")
-        
+         
+        #Early return because we have no other rules for this node type
+        return        
+         
     # Get the declaration of the function in its header file (if existing)
     if (type[0] == "FunctionDef"):
         result = set(getFunctionDeclInHeader(currentNode))
@@ -430,7 +452,10 @@ def analyzeNode (currentNode):
         analysisList.extend(result)
          # Print result
         if (DEBUG): print("Result define relation DeclStmt: "+str(result)+"\n")        
-    
+         
+        #Early return because we have no other rules for this node type
+        return        
+     
     # Get definition of the element that contains the condition or parameter
     # We need this for identification of statements that are connected to a #define       
     if (type[0] in ('Condition', 'PreIfCondition', 'Parameter', 'ParameterList')):
@@ -447,7 +472,10 @@ def analyzeNode (currentNode):
         analysisList.extend(result)
          # Print result
         if (DEBUG): print("Result call relation for an AddressOfExpression: "+str(result)+"\n")
-   
+        
+        #Early return because we have no other rules for this node type
+        return        
+     
         
 ##################################################################################################################
 ##################################### Data Flow ##################################################################   
@@ -474,7 +502,10 @@ def analyzeNode (currentNode):
         semanticUnit.update(result) 
         # Print result
         if (DEBUG): print("Result control flow relation: "+str(result)+"\n")
-   
+        
+        #Early return because we have no other rules for this node type
+        return        
+     
         
 ####################################################################################################################
 #################################### Variability ###################################################################          
@@ -540,32 +571,7 @@ def analyzeNode (currentNode):
 #################################### End of rules  ##################################################################                     
 
     
-    
-    # Do nothing for (as intended):
-    # PreInclude, PreIncludeNext (included file possible, but why not just give the file as entry point?)
-    ################# No meaningful connections, no direct appearence in the code, already contained in other analyses ##################
-    # 'CompoundStatement' empty container object 
-    # 'IncDec' ++
-    # 'UnaryOperator' !
-    # 'AdditiveExpression' a + b
-    # 'PrimaryExpression' 1
-    # 'UnaryOperationExpression' - 1
-    # 'ReturnType' void
-    # 'CFGEntryNode' ENRTY
-    # 'CFGExitNode' EXIT
-    # 'PreMacroParameters' parameters of a function-like macro
-    # 'PreMacro' the macro content
-    # 'BreakStatement', 'ContinueStatement'
-    ####################### Already contained in other analyses ###############################################
-    # 'Symbol' (already contained in the dataflow analysis)
-    # 'IdentifierDeclType' int (contained in IdentifierDeclStatement)
-    # 'IdentifierDecl' i (contained in IdentifierDeclStatement)
-    # 'ParameterType' int (contained in ParameterList)
-    # 'RelationalExpression' i > 5 (contained in condition)
-    # 'ArrayIndexing' array[1]    
-    # 'Decl' (already contained in DeclStmt/FunctionDef/Callee)    
-    # 'PreInclude', 'PreIncludeNext' (choose the file instead)
-
+   
 
 
 ################################ Definition of helper functions ########################################################     
