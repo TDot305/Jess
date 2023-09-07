@@ -221,7 +221,11 @@ def identifySemanticUnits ():
             addComments()       
  
         #Print names of all functions that need external libraries (or that we failed to find a declaration for)
-        print("The following functions/macros have a declaration outside of the project's code (e.g. in used libraries): "+str(externalFunctionsSet))
+        print("The following functions/macros have a declaration outside of the project's code (e.g. in used libraries): ")
+        if (not externalFunctionsSet):
+            print("None")
+        else:
+            print(str(externalFunctionsSet))
         
         # Get the #ifndef #def and #endif for header files? Currently, we get that when addVariability is true
         
