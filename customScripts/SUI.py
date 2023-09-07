@@ -1115,7 +1115,10 @@ def getParent (verticeId):
 
 # Return parent function of a given set of node ids (can be empty)
 def addParentFunctions (nodes):
-    global SemanticUnit    
+    global SemanticUnit   
+    
+    #Empty set for collecting return statements and their dependencies
+    returnResults = set()    
     
     if (DEBUG) : print("Checking for parent functionDefs ...")    
 
@@ -1126,9 +1129,22 @@ def addParentFunctions (nodes):
     __.repeat(__.in('IS_AST_PARENT').dedup()).until(has('type', 'FunctionDef')).dedup().out('IS_AST_PARENT').has('type', 'CompoundStatement').dedup().out('IS_AST_PARENT').has('type','BlockCloser').dedup()
     ).dedup().id()"""  % (nodes)                
            
-    result = db.runGremlinQuery(query)       
+    result = set(db.runGremlinQuery(query))       
     
     if (DEBUG) : print("Found additional parent functionDef nodes: "+str(result)+"\n")
+    
+    #Add return statements (if existing) for newly added functionDefs to preserve syntactical correctness
+    for node in result:
+        if node not in semanticUnit:
+            print("Adding return statements for newly added FunctionDef: "+str(node))
+            #Get returns and data related statements
+            query = """g.V(%s).has('type', 'FunctionDef').until(has('type', 'ReturnStatement')).repeat(out('IS_AST_PARENT')).dedup().out('USE').in('USE','DEF').id()""" % (node)
+            returnResults.update(set(db.runGremlinQuery(query)))   
+            print("New: "+str(returnResults))    
+    
+    print("Found additional return statements: "+str(returnResults)+"\n")
+    #Add the newly found return statements
+    result.update(set(returnResults))  
     
     return result 
 
