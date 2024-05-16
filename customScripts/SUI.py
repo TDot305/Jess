@@ -1189,7 +1189,7 @@ def addLocalDataflows (nodes):
     if (DEBUG) : print("Looking for local dataflows...")        
 
     # Follow all dataflows inside a function and add the involved statements (if existing and without dupes)
-    query = """idListToNodes(%s).repeat(__.out('USE','DEF').dedup().in('USE','DEF').simplePath()).emit().has('type', within(%s)).id()"""  % (nodes)                
+    query = """idListToNodes(%s).repeat(__.out('USE','DEF').dedup().in('USE','DEF').simplePath()).emit().id()"""  % (nodes)                
     
     return db.runGremlinQuery(query)
    
