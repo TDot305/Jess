@@ -1175,7 +1175,7 @@ def addLocalDeclares (nodes):
     if (DEBUG) : print("Looking for local declares...")       
 
     # Find the declaration of all identifiers inside the same function and before the current statement (if existing and without dupes and cycles)
-    query = """idListToNodes(%s).repeat(__.in('FLOWS_TO').simplePath()).emit().has('type', 'IdentifierDeclStatement').dedup().id()"""  % (nodes)                
+    query = """idListToNodes(%s).repeat(__.in('FLOWS_TO').simplePath().dedup()).emit().has('type', 'IdentifierDeclStatement').dedup().id()"""  % (nodes)                
     
     return db.runGremlinQuery(query)
 
