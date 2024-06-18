@@ -12,8 +12,8 @@ repositories { mavenCentral() }
 
 
 dependencies{
-	antlr "org.antlr:antlr4:4.5.3"
-	
+	antlr "com.tunnelvisionlabs:antlr4:4.5.3"
+
 	compile project(':projects:extensions:jpanlib')
 
 	compile group: 'com.tunnelvisionlabs', name: 'antlr4-annotations', version: '4.5.3'
